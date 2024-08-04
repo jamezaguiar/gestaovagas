@@ -31,7 +31,7 @@ public class CandidateEntity {
     @Email(message = "Email should be valid.")
     private String email;
 
-    @Length(min = 8, max = 24, message = "Password must be between 8 and 24 characters long.")
+    @Length(min = 10, max = 100, message = "Password must be between 10 and 100 characters long.")
     private String password;
 
     private String description;
