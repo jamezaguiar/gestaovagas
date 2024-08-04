@@ -1,4 +1,4 @@
-package dev.jamersonaguiar.gestaovagas.modules.candidate;
+package dev.jamersonaguiar.gestaovagas.modules.company.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,13 +10,14 @@ import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@Entity(name = "candidate")
-public class CandidateEntity {
+@Entity(name = "company")
+public class CompanyEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -34,11 +35,11 @@ public class CandidateEntity {
     @Length(min = 8, max = 24, message = "Password must be between 8 and 24 characters long.")
     private String password;
 
-    private String description;
+    @URL(message = "URL should be valid.")
+    private String website;
 
-    private String curriculum;
+    private String description;
 
     @CreationTimestamp
     private LocalDateTime createdAt;
-
 }

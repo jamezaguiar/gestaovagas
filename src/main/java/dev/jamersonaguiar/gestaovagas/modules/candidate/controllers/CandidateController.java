@@ -1,5 +1,6 @@
 package dev.jamersonaguiar.gestaovagas.modules.candidate.controllers;
 
+import dev.jamersonaguiar.gestaovagas.exceptions.UserFoundException;
 import dev.jamersonaguiar.gestaovagas.modules.candidate.CandidateEntity;
 import dev.jamersonaguiar.gestaovagas.modules.candidate.useCases.CreateCandidateUseCase;
 import jakarta.validation.Valid;
@@ -22,7 +23,7 @@ public class CandidateController {
         try {
             var result = this.createCandidateUseCase.execute(candidate);
             return ResponseEntity.ok(result);
-        } catch (Exception e) {
+        } catch (UserFoundException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
