@@ -14,7 +14,7 @@ public class CreateCompanyUseCase {
     private CompanyRepository companyRepository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     public CompanyEntity execute(CompanyEntity companyEntity) {
         this.companyRepository
