@@ -11,6 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.naming.AuthenticationException;
+import java.time.Duration;
+import java.time.Instant;
 
 @Service
 public class AuthCompanyUseCase {
@@ -40,6 +42,7 @@ public class AuthCompanyUseCase {
 
         return JWT.create()
                 .withIssuer("jamersonaguiar.dev")
+                .withExpiresAt(Instant.now().plus(Duration.ofHours(2)))
                 .withSubject(company.getId().toString())
                 .sign(algorithm);
     }
