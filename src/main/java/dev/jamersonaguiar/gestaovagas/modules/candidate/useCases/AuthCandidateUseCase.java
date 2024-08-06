@@ -19,7 +19,7 @@ import java.util.List;
 @Service
 public class AuthCandidateUseCase {
 
-    @Value("${security.token.secret}")
+    @Value("${security.token.secret.candidate}")
     private String secretKey;
 
     @Autowired
