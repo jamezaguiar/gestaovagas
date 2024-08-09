@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -63,7 +64,10 @@ public class CandidateController {
     @GetMapping("/job")
     @PreAuthorize("hasRole('CANDIDATE')")
     @Tag(name = "Candidato", description = "Informações do candidato")
-    @Operation(summary = "Listagem de vagas disponíveis para o candidato", description = "Esta função é responsável por listar todas as vagas disponíveis, baseada no filtro.")
+    @Operation(
+            summary = "Listagem de vagas disponíveis para o candidato",
+            description = "Esta função é responsável por listar todas as vagas disponíveis, baseada no filtro."
+    )
     @ApiResponses({
             @ApiResponse(responseCode = "200", content = {
                     @Content(
@@ -71,6 +75,7 @@ public class CandidateController {
                     )
             })
     })
+    @SecurityRequirement(name = "jwt_auth")
     public List<JobEntity> findJobsByFilter(@RequestParam String filter) {
         return this.listAllJobsByFilterUseCase.execute(filter);
     }
