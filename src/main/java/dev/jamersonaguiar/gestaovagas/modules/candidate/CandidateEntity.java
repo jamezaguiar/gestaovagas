@@ -1,5 +1,6 @@
 package dev.jamersonaguiar.gestaovagas.modules.candidate;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,20 +23,26 @@ public class CandidateEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Schema(example = "John Doe")
     private String name;
 
     @NotBlank
     @Pattern(regexp = "\\S+", message = "Username must not contain whitespace.")
+    @Schema(example = "johndoe")
     private String username;
 
     @Email(message = "Email should be valid.")
+    @Schema(example = "johndoe@example.com")
     private String email;
 
     @Length(min = 10, max = 100, message = "Password must be between 10 and 100 characters long.")
+    @Schema(example = "admin@1234", minLength = 10, maxLength = 100, requiredMode = Schema.RequiredMode.REQUIRED)
     private String password;
 
+    @Schema(example = "Desenvolvedor Java")
     private String description;
 
+    @Schema(example = "https://my-files/johndoe-resume.pdf")
     private String curriculum;
 
     @CreationTimestamp
