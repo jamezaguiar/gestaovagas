@@ -1,7 +1,7 @@
 package dev.jamersonaguiar.gestaovagas.modules.candidate.useCases;
 
 import dev.jamersonaguiar.gestaovagas.exceptions.UserFoundException;
-import dev.jamersonaguiar.gestaovagas.modules.candidate.CandidateEntity;
+import dev.jamersonaguiar.gestaovagas.modules.candidate.entities.CandidateEntity;
 import dev.jamersonaguiar.gestaovagas.modules.candidate.repositories.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

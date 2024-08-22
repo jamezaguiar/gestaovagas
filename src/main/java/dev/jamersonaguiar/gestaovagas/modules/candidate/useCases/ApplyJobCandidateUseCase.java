@@ -2,6 +2,8 @@ package dev.jamersonaguiar.gestaovagas.modules.candidate.useCases;
 
 import dev.jamersonaguiar.gestaovagas.exceptions.JobNotFoundException;
 import dev.jamersonaguiar.gestaovagas.exceptions.UserNotFoundException;
+import dev.jamersonaguiar.gestaovagas.modules.candidate.entities.ApplyJobEntity;
+import dev.jamersonaguiar.gestaovagas.modules.candidate.repositories.ApplyJobRepository;
 import dev.jamersonaguiar.gestaovagas.modules.candidate.repositories.CandidateRepository;
 import dev.jamersonaguiar.gestaovagas.modules.company.repositories.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +20,20 @@ public class ApplyJobCandidateUseCase {
     @Autowired
     private JobRepository jobRepository;
 
-    public void execute(UUID candidateId, UUID jobId) {
-        var candidate = candidateRepository.findById(candidateId).orElseThrow(UserNotFoundException::new);
-        var job = jobRepository.findById(jobId).orElseThrow(JobNotFoundException::new);
+    @Autowired
+    private ApplyJobRepository applyJobRepository;
+
+    public ApplyJobEntity execute(UUID candidateId, UUID jobId) {
+        candidateRepository.findById(candidateId).orElseThrow(UserNotFoundException::new);
+        jobRepository.findById(jobId).orElseThrow(JobNotFoundException::new);
+
+
+        var applyJob = ApplyJobEntity.builder()
+                .candidateId(candidateId)
+                .jobId(jobId)
+                .build();
+
+        return applyJobRepository.save(applyJob);
     }
 
 }

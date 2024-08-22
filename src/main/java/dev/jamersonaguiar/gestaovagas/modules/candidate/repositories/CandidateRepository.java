@@ -1,6 +1,6 @@
 package dev.jamersonaguiar.gestaovagas.modules.candidate.repositories;
 
-import dev.jamersonaguiar.gestaovagas.modules.candidate.CandidateEntity;
+import dev.jamersonaguiar.gestaovagas.modules.candidate.entities.CandidateEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

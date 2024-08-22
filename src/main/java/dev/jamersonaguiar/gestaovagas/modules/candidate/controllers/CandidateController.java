@@ -2,8 +2,10 @@ package dev.jamersonaguiar.gestaovagas.modules.candidate.controllers;
 
 import dev.jamersonaguiar.gestaovagas.exceptions.UserFoundException;
 import dev.jamersonaguiar.gestaovagas.exceptions.UserNotFoundException;
-import dev.jamersonaguiar.gestaovagas.modules.candidate.CandidateEntity;
 import dev.jamersonaguiar.gestaovagas.modules.candidate.dto.ProfileCandidateResponseDTO;
+import dev.jamersonaguiar.gestaovagas.modules.candidate.entities.ApplyJobEntity;
+import dev.jamersonaguiar.gestaovagas.modules.candidate.entities.CandidateEntity;
+import dev.jamersonaguiar.gestaovagas.modules.candidate.useCases.ApplyJobCandidateUseCase;
 import dev.jamersonaguiar.gestaovagas.modules.candidate.useCases.CreateCandidateUseCase;
 import dev.jamersonaguiar.gestaovagas.modules.candidate.useCases.ListAllJobsByFilterUseCase;
 import dev.jamersonaguiar.gestaovagas.modules.candidate.useCases.ProfileCandidateUseCase;
@@ -39,6 +41,9 @@ public class CandidateController {
 
     @Autowired
     private ListAllJobsByFilterUseCase listAllJobsByFilterUseCase;
+
+    @Autowired
+    private ApplyJobCandidateUseCase applyJobCandidateUseCase;
 
     @PostMapping()
     @Operation(summary = "Cadastro de candidato", description = "Esta função é responsável por cadastrar um candidato")
@@ -98,5 +103,30 @@ public class CandidateController {
     @SecurityRequirement(name = "jwt_auth")
     public List<JobEntity> findJobsByFilter(@RequestParam String filter) {
         return this.listAllJobsByFilterUseCase.execute(filter);
+    }
+
+    @PostMapping("/job/apply/{jobId}")
+    @PreAuthorize("hasRole('CANDIDATE')")
+    @Operation(
+            summary = "Inscrição do candidato para uma vaga",
+            description = "Esta função é responsável por receber a aplicação de um candidato a uma vaga."
+    )
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", content = {
+                    @Content(
+                            schema = @Schema(implementation = ApplyJobEntity.class)
+                    )
+            })
+    })
+    @SecurityRequirement(name = "jwt_auth")
+    public ResponseEntity<Object> applyJob(HttpServletRequest request, @PathVariable UUID jobId) {
+        var candidateId = request.getAttribute("candidate_id");
+
+        try {
+            var result = this.applyJobCandidateUseCase.execute(UUID.fromString(candidateId.toString()), jobId);
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
